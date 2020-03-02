@@ -1,5 +1,9 @@
 # Wox Plugins
 
+My own collection of plugins for the Windows launcher [Wox](http://www.wox.one/).
+
+# How to install a plugin
+
 You can install the plugins by downloading them from the [releases page](https://github.com/NickSeagull/WoxPlugins/releases) and drag-n-dropping into your Wox search bar.
 
 ## ⌨ Espanso
