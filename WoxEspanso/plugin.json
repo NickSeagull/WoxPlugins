@@ -4,7 +4,7 @@
   "Name":"Espanso",
   "Description":"Explore your Espanso expansions",
   "Author":"NickSeagull",
-  "Version":"0.0.1",
+  "Version":"0.0.2",
   "Language":"csharp",
   "Website":"https://github.com/NickSeagull/WoxPlugins",
   "IcoPath": "Assets\\icon.png",

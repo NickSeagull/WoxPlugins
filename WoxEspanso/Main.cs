@@ -56,7 +56,7 @@ namespace WoxEspanso
             if (query.Search.Length > 0 && query.Search[0] == '.')
             {
                 var search = ":" + query.Search.Substring(1, query.Search.Length - 2);
-                return match.Trigger.LevenshteinDistance(search);
+                return match.Trigger.DiceCoefficient(search);
             }
             var replace = Encoding.ASCII.GetString(Encoding.ASCII.GetBytes(match.Replace));
             return replace.DiceCoefficient(query.Search);
