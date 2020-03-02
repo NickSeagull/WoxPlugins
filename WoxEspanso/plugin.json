@@ -1,12 +1,12 @@
 ﻿{
-  "ID":"D2D2C23B084D411DB66FE0C79D6C2A6H",   //Plugin ID，32 bit UUID
-  "ActionKeyword":"wpm",                     //Plugin default action keyword
-  "Name":"WPM",                              //Plugin name
-  "Description":"Wox Package Management",    //Plugin description
-  "Author":"qianlifeng",                     //Plugin Author
-  "Version":"1.0.0",                         //Plugin version，must be x.x.x format
-  "Language":"csharp",                       //Plugin language，we support csharp,python and executable now
-  "Website":"http://www.getwox.com",         //Plugin website or author website
-  "IcoPath": "Images\\pic.png",              //Plugin icon, relative path to the pluign folder
-  "ExecuteFileName":"PluginManagement.dll"   //Execution entry. Dll name for c# plugin, and python file for python plugin
+  "ID":"fd5f01815cbe11eaa97b001a7dda7113",
+  "ActionKeyword":"espanso",
+  "Name":"Espanso",
+  "Description":"Explore your Espanso expansions",
+  "Author":"NickSeagull",
+  "Version":"0.0.1",
+  "Language":"csharp",
+  "Website":"https://github.com/NickSeagull/WoxPlugins",
+  "IcoPath": "Assets\\icon.png",
+  "ExecuteFileName":"WoxEspanso.dll"
 }

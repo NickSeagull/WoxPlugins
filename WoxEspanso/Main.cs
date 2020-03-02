@@ -1,52 +1,65 @@
-﻿using System;
+﻿using DuoVia.FuzzyStrings;
+using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
+using System.Text;
+using WindowsInput;
 using Wox.Plugin;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
+using Timer = System.Timers.Timer;
 
 namespace WoxEspanso
 {
     public class Main : IPlugin
     {
-        private class Config
-        {
-            public string ToggleKey { get; set; }
-            public List<Match> Matches { get; set; }
-        }
-
-        private class Match
-        {
-            public string Trigger { get; set; }
-            public string Replace { get; set; }
-        }
+        private const string IconPath = "Assets\\icon.png";
+        private Config config;
+        private List<Match> matches;
+        private Timer timer;
 
         public void Init(PluginInitContext context)
         {
+            this.config = Config.Load();
+            this.matches = this.config.Matches;
         }
 
         public List<Result> Query(Query query)
         {
-            var document = File.ReadAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "espanso", "default.yml"));
-            var input = new StringReader(document);
-            var deserializer = new DeserializerBuilder().WithNamingConvention(PascalCaseNamingConvention.Instance).Build();
-            var config = deserializer.Deserialize<Config>(input);
-            var results = new List<Result>();
-            results.Add(new Result()
+            matches.Sort((match1, match2) =>
+                fuzzySearch(query, match2).CompareTo(fuzzySearch(query, match1))
+            );
+            return matches.AsEnumerable().Select(match =>
             {
-                Title = "Title",
-                SubTitle = "Sub title",
-                IcoPath = "Assets\\icon.png",  //relative path to your plugin directory
-                Action = e =>
+                var result = new Result
                 {
-                    // after user select the item
+                    Title = match.Trigger,
+                    SubTitle = match.Replace,
+                    IcoPath = IconPath,
+                    Score = (int)Math.Ceiling(fuzzySearch(query, match) * 100),
+                    Action = e =>
+                    {
+                        this.timer = new Timer(100);
+                        this.timer.Elapsed += (source, ev) =>
+                        {
+                            new InputSimulator().Keyboard.TextEntry(match.Replace);
+                        };
+                        this.timer.AutoReset = false;
+                        this.timer.Enabled = true;
+                        return true;
+                    }
+                };
+                return result;
+            }).ToList();
+        }
 
-                    // return false to tell Wox don't hide query window, otherwise Wox will hide it automatically
-                    return true;
-                }
-            });
-            return results;
+        private static double fuzzySearch(Query query, Match match)
+        {
+            if (query.Search.Length > 0 && query.Search[0] == '.')
+            {
+                var search = ":" + query.Search.Substring(1, query.Search.Length - 2);
+                return match.Trigger.LevenshteinDistance(search);
+            }
+            var replace = Encoding.ASCII.GetString(Encoding.ASCII.GetBytes(match.Replace));
+            return replace.DiceCoefficient(query.Search);
         }
     }
-
 }
