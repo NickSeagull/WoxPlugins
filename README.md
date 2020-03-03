@@ -1,5 +1,7 @@
 # Wox Plugins
 
+[![Build Status](https://dev.azure.com/codeseagull/WoxPlugins/_apis/build/status/NickSeagull.WoxPlugins?branchName=master)](https://dev.azure.com/codeseagull/WoxPlugins/_build/latest?definitionId=3&branchName=master)
+
 My own collection of plugins for the Windows launcher [Wox](http://www.wox.one/).
 
 # How to install a plugin
